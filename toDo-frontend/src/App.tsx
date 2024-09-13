@@ -5,12 +5,14 @@ interface Todo {
   id: string;
   title: string;
   completed: boolean;
+  category: string;
 }
 
 export default function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodoTitle, setNewTodoTitle] = useState("");
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("work");
 
   useEffect(() => {
     fetchTodos();
@@ -23,17 +25,17 @@ export default function App() {
   }
 
   async function createTodo() {
-    const response = await fetch("http://127.0.0.1:8080/todos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: "", title: newTodoTitle, completed: false }),
-    });
-
-    const newTodo = await response.json();
-    if (newTodo.title === "") {
+    if (newTodoTitle.trim() === "") {
       alert("Please enter a task");
       return;
     }
+    const response = await fetch("http://127.0.0.1:8080/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: "", title: newTodoTitle, completed: false, category: selectedCategory }),
+    });
+
+    const newTodo = await response.json();
     setTodos([...todos, newTodo]);
     setNewTodoTitle("");
   }
@@ -64,24 +66,36 @@ export default function App() {
             ClearList
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-center items-center shadow-xl  shadow-slate-400 rounded-3xl mt-4 mx-2 sm:mx-4 md:mx-10">
+        <div className="flex flex-col md:flex-row justify-center items-center shadow-xl shadow-slate-400 rounded-3xl mt-4 mx-2 sm:mx-4 md:mx-10">
           <div className="flex flex-col items-center w-full md:w-1/2 p-4">
-            <input
-              type="text"
-              className="p-4 mb-4 w-full border-2 rounded-2xl"
-              value={newTodoTitle}
-              onChange={(e) => setNewTodoTitle(e.target.value)}
-              placeholder="Type your task..."
-            />
+            <div className="flex w-full mb-4">
+              <input
+                type="text"
+                className="p-4 flex-grow border-2 relative rounded-l-2xl"
+                value={newTodoTitle}
+                onChange={(e) => setNewTodoTitle(e.target.value)}
+                placeholder="Type your task..."
+              />
+              <select
+                className="p-4 border-2 border-l-0 rounded-r-2xl"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="work">Work</option>
+                <option value="personal">Personal</option>
+                <option value="shopping">Shopping</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
             <button
-              className="bg-blue-600 w-full md:w-20  text-white p-2 rounded-2xl"
+              className="bg-blue-600 w-full md:w-20 text-white p-2 rounded-2xl"
               onClick={createTodo}
             >
               Add
             </button>
           </div>
           <div className="flex flex-col items-center w-full md:w-1/2 p-4 ">
-            <ul className="w-full box-border shadow-sm shadow-slate-700 rounded-xl ">
+            <ul className="w-full flex-grow box-border shadow-sm shadow-slate-700 rounded-xl ">
               {todos.map((todo) => (
                 <li
                   key={todo.id}
@@ -116,28 +130,29 @@ export default function App() {
                     </div>
                   ) : (
                     <div className="flex flex-col sm:flex-row items-start w-full box-border shadow-md rounded-lg p-4">
-                      <div
-                        className={`flex-grow ${
-                          todo.completed ? "line-through" : ""
-                        }  text-sm sm:text-base md:text-lg break-words overflow-hidden`}
-                      >
-                        {todo.title}
-                      </div>
-                      <div className="flex mt-2 sm:mt-0 sm:ml-2 space-x-2">
-                        <button
-                          className="bg-yellow-500 text-white px-3 py-1 rounded sm:px-4 sm:py-2"
-                          onClick={() => setEditingTodo(todo)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="bg-red-500 text-white px-3 py-1 rounded sm:px-4 sm:py-2"
-                          onClick={() => deleteTodo(todo.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
+                    <div
+                      className={`flex-grow ${
+                        todo.completed ? "line-through" : ""
+                      }  text-sm sm:text-base md:text-lg break-words overflow-hidden`}
+                    >
+                      {todo.title}
+                      <div className="text-xs text-gray-400">Category: {todo.category}</div>
                     </div>
+                    <div className="flex mt-2 sm:mt-0 sm:ml-2 space-x-2">
+                      <button
+                        className="bg-yellow-500 text-white px-3 py-1 rounded sm:px-4 sm:py-2"
+                        onClick={() => setEditingTodo(todo)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="bg-red-500 text-white px-3 py-1 rounded sm:px-4 sm:py-2"
+                        onClick={() => deleteTodo(todo.id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
                   )}
                 </li>
               ))}

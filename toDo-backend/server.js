@@ -20,11 +20,12 @@ app.get('/todos', (req, res) => {
 
 // Create a new todo
 app.post('/todos', (req, res) => {
-    const { title, completed } = req.body;
+    const { title, completed,category } = req.body;
     const todo = {
         id: uuidv4(),
         title,
         completed,
+        category,
     };
     todos.push(todo);
     res.json(todo);
