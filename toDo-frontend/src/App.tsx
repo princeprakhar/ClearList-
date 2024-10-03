@@ -42,7 +42,7 @@ export default function App() {
     if (!user) return;
     
     try {
-      const response = await fetch("clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos", {
+      const response = await fetch("https://clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos", {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
@@ -58,7 +58,7 @@ export default function App() {
 
   async function handleAuth(isRegister: boolean) {
     try {
-      const response = await fetch(`clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/${isRegister ? 'register' : 'login'}`, {
+      const response = await fetch(`https://clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/${isRegister ? 'register' : 'login'}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ export default function App() {
       return;
     }
     try {
-      const response = await fetch("clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos", {
+      const response = await fetch("https://clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +126,7 @@ export default function App() {
   async function updateTodo(updatedTodo: Todo) {
     if (!user) return;
     try {
-      const response = await fetch("clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos", {
+      const response = await fetch("https://clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -147,7 +147,7 @@ export default function App() {
   async function deleteTodo(id: string) {
     if (!user) return;
     try {
-      const response = await fetch(`clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos/${id}`, {
+      const response = await fetch(`https://clear-list-fsvt-5chet85dn-prakhar-deeps-projects.vercel.app/todos/${id}`, {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${user.token}`
