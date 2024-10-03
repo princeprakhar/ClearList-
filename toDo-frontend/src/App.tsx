@@ -206,12 +206,12 @@ export default function App() {
 
   if (currentView === 'login' || currentView === 'register') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-blue-500 to-purple-600">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-slate-500 to-gray-600">
         <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold mb-4 text-center">
             {currentView === 'register' ? 'Create an Account' : 'Welcome Back!'}
           </h2>
-          {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
+          {error && <p className="text-white mb-4 text-center">{error}</p>}
           <input
             type="text"
             placeholder="Username"
@@ -227,13 +227,13 @@ export default function App() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <button
-            className="w-full bg-blue-500 text-white p-2 rounded mb-2"
+            className="w-full bg-slate-500 text-black p-2 rounded mb-2"
             onClick={() => handleAuth(currentView === 'register')}
           >
             {currentView === 'register' ? 'Sign Up' : 'Login'}
           </button>
           <button
-            className="w-full text-blue-500 underline"
+            className="w-full text-black-500 underline"
             onClick={() => {
               setCurrentView(currentView === 'register' ? 'login' : 'register');
               setError('');
