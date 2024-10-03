@@ -15,7 +15,9 @@ const JWT_SECRET = process.env.JWT_SECRET; // In production, use an environment 
 // Middleware
 app.use(cors(
     {
-        origin: 'https://clear-list-f2hp.vercel.app/',
+        origin: (origin, callback) => {
+            callback(null, origin || '*'); // Allow any origin
+        },
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
         credentials: true
     }
