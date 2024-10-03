@@ -13,15 +13,18 @@ const port = 8080;
 const JWT_SECRET = process.env.JWT_SECRET; // In production, use an environment variable
 
 // Middleware
-app.use(cors(
-    {
-        origin: (origin, callback) => {
-            callback(null, origin || '*'); // Allow any origin
-        },
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        credentials: true
-    }
-));
+// Middleware for handling CORS
+const corsOptions = {
+  origin: 'https://clear-list-f2hp.vercel.app', // Allow your frontend origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true, // Enable credentials (cookies, etc.)
+  optionsSuccessStatus: 200 // Prevents errors on older browsers (e.g., IE)
+};
+
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions)); // Allow preflight requests for all routes
+
 app.use(bodyParser.json());
 
 
