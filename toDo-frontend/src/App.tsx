@@ -207,11 +207,11 @@ export default function App() {
   if (currentView === 'login' || currentView === 'register') {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-slate-500 to-gray-600">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+        <div className="w-full max-w-md bg-gray-400 rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold mb-4 text-center">
             {currentView === 'register' ? 'Create an Account' : 'Welcome Back!'}
           </h2>
-          {error && <p className="text-white mb-4 text-center">{error}</p>}
+          {error && <p className="text-red-700 mb-4 text-center">{error}</p>}
           <input
             type="text"
             placeholder="Username"
